@@ -21,7 +21,7 @@ const App = () => {
           <Route path='/community/:id' element={<CommunityPage />}/>
         </Routes>
       </div>
-    </div>
+    </div>        
   )
 }
 
