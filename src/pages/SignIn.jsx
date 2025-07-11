@@ -2,7 +2,7 @@ import React from 'react'
 import { useAuth } from '../context/AuthContext'
 
 const SignIn = () => {
-    const {signInWithGoogle} = useAuth()
+    const {signInWithGoogle,signInWithGitHub} = useAuth()
     return (
         <div className='min-h-screen flex items-center justify-center bg-black text-white  px-4'>
             <div className='w-full max-w-md space-y-6'>
@@ -17,7 +17,7 @@ const SignIn = () => {
                             Google
                         </span>
                     </button>
-                    <button className='flex-1 border border-white/10 py-2 rounded-lg hover:bg-white/10 transition'>
+                    <button className='flex-1 border border-white/10 py-2 rounded-lg hover:bg-white/10 transition' onClick={signInWithGitHub}>
                         <span className='flex items-center justify-center gap-2'>
                             <img src="https://www.svgrepo.com/show/512317/github-142.svg" className='h-5 2-5 invert' alt="" />
                             GitHub
