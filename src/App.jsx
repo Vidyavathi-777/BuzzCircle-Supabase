@@ -7,6 +7,7 @@ import PostPage from './pages/PostPage'
 import CreateCommunityPage from './pages/CreateCommunityPage'
 import CommunitiesPage from './pages/CommunitiesPage'
 import CommunityPage from './pages/CommunityPage'
+import SignIn from './pages/SignIn'
 const App = () => {
   return (
     <div className='min-h-screen bg-black text-gray-100 transition-opacity duration-700 pt-20'>
@@ -19,6 +20,7 @@ const App = () => {
           <Route path='/community/create' element={<CreateCommunityPage/>} />
           <Route path='/communities' element={<CommunitiesPage />} />
           <Route path='/community/:id' element={<CommunityPage />}/>
+          <Route path='/signin' element={<SignIn/>} />
         </Routes>
       </div>
     </div>        

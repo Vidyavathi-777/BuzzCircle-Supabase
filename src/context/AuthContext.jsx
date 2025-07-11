@@ -21,6 +21,11 @@ export const AuthProvider = ({children}) =>{
 
     },[])
 
+    const signInWithGoogle=() =>{
+        supabase.auth.signInWithOAuth({provider:'google'})
+
+    }
+
     const signInWithGitHub = () =>{
         supabase.auth.signInWithOAuth({provider: 'github'})
     }
@@ -30,7 +35,7 @@ export const AuthProvider = ({children}) =>{
     }
 
     return (
-        <AuthContext.Provider value={{user,signInWithGitHub,signOut}}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{user,signInWithGitHub,signOut,signInWithGoogle}}>{children}</AuthContext.Provider>
     )
 
 }

@@ -45,12 +45,13 @@ const Navbar = () => {
                 </button>
               </div>
             ) : (
-              <button
-                onClick={signInWithGitHub}
-                className='bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded transition'
-              >
-                Sign in with GitHub
-              </button>
+              // <button
+              //   onClick={signInWithGitHub}
+              //   className='bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded transition'
+              // >
+              //   Sign in with GitHub
+              // </button>
+              <Link to={"/signin"} className='bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded transition'>Sign In</Link>
             )}
           </div>
 
