@@ -8,6 +8,7 @@ import CreateCommunityPage from './pages/CreateCommunityPage'
 import CommunitiesPage from './pages/CommunitiesPage'
 import CommunityPage from './pages/CommunityPage'
 import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
 const App = () => {
   return (
     <div className='min-h-screen bg-black text-gray-100 transition-opacity duration-700 pt-20'>
@@ -21,6 +22,7 @@ const App = () => {
           <Route path='/communities' element={<CommunitiesPage />} />
           <Route path='/community/:id' element={<CommunityPage />}/>
           <Route path='/signin' element={<SignIn/>} />
+          <Route path='/signUp' element={<SignUp />} />
         </Routes>
       </div>
     </div>        

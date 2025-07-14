@@ -2,21 +2,22 @@ import React, { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate,Link } from 'react-router'
 
-const SignIn = () => {
+const SignUp = () => {
+    const [name,setName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [error,setError] = useState(null)
     const [loading,setLoading] = useState(false)
     const navigate = useNavigate()
 
-    const {signInWithGoogle,signInWithGitHub,signInUser} = useAuth()
+    const {signInWithGoogle,signInWithGitHub,signUpUser} = useAuth()
 
     const handleSignUp = async (e) =>{
         e.preventDefault()
         setLoading(true)
         setError(null)
         try{
-            const res = await signInUser(email,password)
+            const res = await signUpUser(email,password,name)
             if (res.success){
                 navigate("/")
             }else{
@@ -58,6 +59,12 @@ const SignIn = () => {
                 {/* sig in form */}
                 <form onSubmit={handleSignUp} className='space-y-4'>
                     <div >
+                        <label htmlFor="" className='block text-sm mb-1'>Name</label>
+                        <input  value={name} onChange={(e) => setName(e.target.value)}
+                        className='w-full p-2 bg-gray-900 border border-white/10 rounded'
+                        type="text" required placeholder='Your Name'  />
+                    </div>
+                    <div >
                         <label htmlFor="" className='block text-sm mb-1'>Email</label>
                         <input 
                         placeholder='Your Email' value={email} onChange={(e) => setEmail(e.target.value)}
@@ -84,4 +91,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn
+export default SignUp
