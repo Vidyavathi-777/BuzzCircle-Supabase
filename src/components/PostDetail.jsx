@@ -38,7 +38,7 @@ const PostDetail = ({postId}) => {
         {post?.title}
       </h2>
 
-      {post?.image_url && (
+      {post?.image_url && ( 
         <div className="w-full max-h-[1000px] h-full overflow-hidden rounded-lg border border-white/10 shadow-lg">
         <img
           src={post.image_url}

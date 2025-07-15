@@ -15,7 +15,7 @@ const PostList = () => {
         try{
             const {data,error} = await supabase.rpc("get_posts_with_counts")
 
-            if(error) throw new Error(error.message)
+            if(error) throw new Error(error.message) 
             console.log(data)
             setPosts(data || [])
         }catch(err){

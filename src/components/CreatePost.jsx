@@ -108,7 +108,7 @@ const CreatePost = () => {
           required
           onChange={(e) => setTitle(e.target.value)}
           className="w-full border border-white/10 bg-transparent p-2 rounded"
-        />
+        /> 
       </div>
 
       <div>

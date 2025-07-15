@@ -33,8 +33,8 @@ const SignIn = () => {
         <div className='min-h-screen flex items-center justify-center bg-black text-white  px-4'>
             <div className='w-full max-w-md space-y-6'>
 
-                <h2 className='text-2xl font-bold text-center'>Sign Up Account</h2>
-                <p className='text-gray-400 text-center'>Enter Your personal data to create your account</p>
+                <h2 className='text-2xl font-bold text-center'>Sign In Account</h2>
+                <p className='text-gray-400 text-center'>Enter Your personal data to Sign In to your account</p>
                 {/* o auth buttons */}
                 <div className='flex space-x-4 justify-center'>
                     <button className='flex-1 border border-white/10 py-2 rounded-lg hover:bg-white/10 transition' onClick={signInWithGoogle} >
@@ -76,7 +76,7 @@ const SignIn = () => {
                     </button>
                     {error && <p className='text-red-600 text-center pt-4'>{error}</p>}
                 </form>
-                <p className='text-center text-m text-gray-400'>Already have an account?{" "}
+                <p className='text-center text-m text-gray-400'>Don't  have an account?{" "}
                     <Link to={"/signin"} className='text-white underline'>Sign In</Link>
                 </p>
             </div>

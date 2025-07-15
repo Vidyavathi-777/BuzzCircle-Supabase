@@ -16,7 +16,7 @@ const PostItem = ({post}) => {
                         <div className='text-[20px] leading-[22px] font-semibold mt-2'>
                             {post.title}
                         </div>
-                    </div>
+                    </div> 
                 </div>
                 {/* image */}
                 <div className='mt-2 flex-1'>
