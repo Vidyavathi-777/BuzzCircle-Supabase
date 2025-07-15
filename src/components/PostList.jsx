@@ -31,7 +31,7 @@ const PostList = () => {
     if (loading) return <div className='text-center py-10'>Loading Posts......</div>
     if(error) return <div className='text-red-500 text-center py-10'>Error : {error}</div>
   return (
-    <div className='flex flex-wrap gap-6 justify-center'>
+    <div className='flex flex-wrap gap-2 justify-center'>
         {/* <img src={posts[1].image_url}/> */}
       {posts.map((post,index) =>(
         <PostItem key={index} post={post} />
