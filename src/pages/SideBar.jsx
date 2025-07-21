@@ -44,7 +44,7 @@ const SideBar = () => {
     { icon: <UsersIcon className="w-6 h-6" />, tooltip: 'Communities', link: '/communities' },
   ];
 
-  if (isAdmin) {
+  if (user && isAdmin) {
     icons.push({
       icon: <PlusCircleIcon className="w-6 h-6" />,
       tooltip: 'Create Community',
