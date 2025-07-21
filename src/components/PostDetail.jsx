@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { supabase } from '../supabaseClient'
 import LikeButton from './LikeButton'
+import CommentsSection from './CommentsSection'
 
 const PostDetail = ({postId}) => {
     const [post,setPost] = useState(null)
@@ -54,6 +55,7 @@ const PostDetail = ({postId}) => {
         Posted on: {new Date(post?.created_at).toLocaleDateString()}
       </p>
       <LikeButton postId={postId} />
+      <CommentsSection postId={postId} />
     </div>
   )
 }

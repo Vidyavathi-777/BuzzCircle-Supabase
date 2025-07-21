@@ -14,6 +14,9 @@ import EditProfilePage from './pages/EditProfilePage'
 import SideBar from './pages/SideBar'
 import { useAuth } from './context/AuthContext'
 import { supabase } from './supabaseClient'
+import SearchUsers from './pages/SearchUsers'
+import FollowersPage from './pages/FollowersPage'
+import FollowingPage from './pages/FollowingPage'
 
 const App = () => {
     const { user } = useAuth()
@@ -56,12 +59,15 @@ const App = () => {
                             {isAdmin && (
                                 <Route path='/community/create' element={<CreateCommunityPage />} />
                             )}
+                            <Route path='/search' element={<SearchUsers />} />
                             <Route path='/communities' element={<CommunitiesPage />} />
                             <Route path='/community/:id' element={<CommunityPage />} />
                             <Route path='/signin' element={<SignIn />} />
                             <Route path='/signup' element={<SignUp />} />
                             <Route path='/profile' element={<Profile />} />
                             <Route path='/edit-profile' element={<EditProfilePage />} />
+                            <Route path='/followers' element={<FollowersPage/>} />
+                            <Route path='/following' element={<FollowingPage />} />
                         </Routes>
                     </div>
                 </div>

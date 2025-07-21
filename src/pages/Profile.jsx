@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { ChevronLeft, Settings, Heart, Bookmark, Users, MessageCircle, Grid3X3, PencilIcon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
@@ -11,8 +11,10 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [post, setPost] = useState([])
-  const [community,setCommunity] = useState([])
-  const [likedPosts,setLikedPosts] = useState([])
+  const [community, setCommunity] = useState([])
+  const [likedPosts, setLikedPosts] = useState([])
+  const [followersCount, setFollowersCount] = useState(0)
+  const [followingCount, setFollowingCount] = useState(0)
   const navigate = useNavigate()
 
   const tabs = ['Posts', 'Communities', 'Liked', 'Saved'];
@@ -30,7 +32,17 @@ const ProfilePage = () => {
     } finally {
       setLoading(false)
     }  // console.log(user)
-  // const avatarUrl = user?.user_metadata?.avatar_url
+    // const avatarUrl = user?.user_metadata?.avatar_url
+  }
+
+  const fetchCount = async () => {
+    const [{ count: followers }, { count: following }] = await Promise.all([
+      supabase.from('followers').select("*", { count: 'exact', head: true }).eq('following_id', user.id),
+      supabase.from('followers').select("*", { count: 'exact', head: true }).eq('follower_id', user.id),
+    ])
+    setFollowersCount(followers || 0)
+    setFollowingCount(following || 0)
+    console.log(setFollowersCount, setFollowingCount)
   }
 
   useEffect(() => {
@@ -39,9 +51,12 @@ const ProfilePage = () => {
       fetchPost()
       fetchCommunity()
       fetchLikedPosts()
-  
+
     }
   }, [user])
+  useEffect(() => {
+    fetchCount()
+  }, [user?.id])
 
   const handleLogout = async () => {
     await signOut()
@@ -62,45 +77,45 @@ const ProfilePage = () => {
     }
   }
 
-  const fetchCommunity = async () =>{
+  const fetchCommunity = async () => {
     setError(null)
-    try{
-      const {data : memebersData,error: membersError} = await supabase.from("community_members").select("community_id").eq("user_id",user.id);
-      if(membersError) throw membersError
+    try {
+      const { data: memebersData, error: membersError } = await supabase.from("community_members").select("community_id").eq("user_id", user.id);
+      if (membersError) throw membersError
       // console.log(data)
       // setCommunity(data)
       const communityId = memebersData.map(member => member.community_id)
-      if(communityId.length === 0){
+      if (communityId.length === 0) {
         setCommunity([])
         return
       }
-      const {data:communitiesData,error:communitiesError} = await supabase.from("communities").select("*").in("id",communityId)
-      if(communitiesError) throw communitiesError
+      const { data: communitiesData, error: communitiesError } = await supabase.from("communities").select("*").in("id", communityId)
+      if (communitiesError) throw communitiesError
       // console.log(communitiesData)
       setCommunity(communitiesData)
-    }catch(error){
+    } catch (error) {
       setError(error.message)
     }
   }
 
-  const fetchLikedPosts = async () =>{
+  const fetchLikedPosts = async () => {
     setError(null)
-    try{
-      const {data:likedVotes,error:votesError} = await supabase.from("votes").select("post_id").eq("user_id",user.id).eq("vote",1)
-      if(votesError) throw votesError
+    try {
+      const { data: likedVotes, error: votesError } = await supabase.from("votes").select("post_id").eq("user_id", user.id).eq("vote", 1)
+      if (votesError) throw votesError
       // console.log(likedVotes)
 
-      const likedPostsId =  likedVotes.map(entry => entry.post_id)
+      const likedPostsId = likedVotes.map(entry => entry.post_id)
 
-      if(likedPostsId === 0){
+      if (likedPostsId === 0) {
         setLikedPosts([])
         return
       }
-      const {data:likedPostData,error:likedPostError} = await supabase.from("posts").select("*").in("id",likedPostsId)
+      const { data: likedPostData, error: likedPostError } = await supabase.from("posts").select("*").in("id", likedPostsId)
       if (likedPostError) throw likedPostError
       // console.log(likedPostData)
       setLikedPosts(likedPostData)
-    }catch(error){
+    } catch (error) {
       setError(error)
     }
   }
@@ -116,17 +131,17 @@ const ProfilePage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
             {post.map(post => (
               <Link to={`/post/${post.id}`}>
-              <div key={post.id} className="relative group bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div key={post.id} className="relative group bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
 
-                <div className="aspect-square w-full">
-                  <img
-                    src={post.image_url}
-                    alt={post.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
+                  <div className="aspect-square w-full">
+                    <img
+                      src={post.image_url}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
 
-                {/* <div className="absolute inset-0 bg-black/60 flex flex-col justify-end p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {/* <div className="absolute inset-0 bg-black/60 flex flex-col justify-end p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <h3 className="text-xl font-semibold mb-2 line-clamp-2"> 
                 {post.title}
             </h3>
@@ -144,13 +159,13 @@ const ProfilePage = () => {
             </div>
         </div> */}
 
-                <div className="p-2">
-                  <h3 className="text-lg font-semibold text-white truncate">
-                    {post.title}
-                  </h3>
-                </div>
+                  <div className="p-2">
+                    <h3 className="text-lg font-semibold text-white truncate">
+                      {post.title}
+                    </h3>
+                  </div>
 
-              </div>
+                </div>
               </Link>
             ))}
           </div>
@@ -158,23 +173,19 @@ const ProfilePage = () => {
 
       case 'Communities':
         return (
-          <div className="mt-4 space-y-3">
+          <div className="mt-4 space-y-3  ">
             {community.map(community => (
               <Link to={`/community/${community.id}`}>
-              <div key={community.id} className="flex items-center gap-3 bg-purple-800 rounded-lg p-3 hover:bg-gray-800 transition-colors">
-                {/* <img
-                  src={community.image}
-                  alt={community.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                /> */}
-                <div className="flex-1">
-                  <h4 className="text-white font-medium">{community.name}</h4>
-                  <p className="text-gray-400 text-sm">{community.members} members</p>
+                <div key={community.id} className="flex items-center gap-3 bg-purple-800 rounded-lg p-3 hover:bg-purple-500 transition-colors">
+                  <div className="flex-1">
+                    <h4 className="text-white font-medium">{community.name}</h4>
+                    <p className="text-gray-400 text-sm">{community.members} members</p>
+                  </div>
+                  <button className="text-purple-400 hover:text-purple-300 transition-colors">
+                    <Users className="w-5 h-5" />
+                  </button>
                 </div>
-                <button className="text-purple-400 hover:text-purple-300 transition-colors">
-                  <Users className="w-5 h-5" />
-                </button>
-              </div>
+                <div className='mb-1'></div>
               </Link>
             ))}
           </div>
@@ -185,16 +196,16 @@ const ProfilePage = () => {
           <div className="grid grid-cols-3 gap-1 mt-4">
             {likedPosts.slice(0, 4).map(post => (
               <Link to={`/post/${post.id}`}>
-              <div key={post.id} className="relative group aspect-square bg-gray-800 rounded-lg overflow-hidden">
-                <img
-                  src={post.image_url}
-                  alt={`Liked post ${post.id}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute top-2 right-2">
-                  <Heart className="w-4 h-4 text-red-500 fill-current" />
+                <div key={post.id} className="relative group aspect-square bg-gray-800 rounded-lg overflow-hidden">
+                  <img
+                    src={post.image_url}
+                    alt={`Liked post ${post.id}`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute top-2 right-2">
+                    <Heart className="w-4 h-4 text-red-500 fill-current" />
+                  </div>
                 </div>
-              </div>
               </Link>
             ))}
           </div>
@@ -263,12 +274,16 @@ const ProfilePage = () => {
             <div className="text-sm text-gray-400">Posts</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-black">{profile.follower_count}</div>
-            <div className="text-sm text-gray-400">Followers</div>
+            <Link to={"/followers"}>
+              <div className="text-2xl font-bold text-black">{followersCount}</div>
+              <div className="text-sm text-gray-400">Followers</div>
+            </Link>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-black">{profile.following_count}</div>
-            <div className="text-sm text-gray-400">Following</div>
+            <Link to={"/following"}>
+              <div className="text-2xl font-bold text-black">{followingCount}</div>
+              <div className="text-sm text-gray-400">Following</div>
+            </Link>
           </div>
         </div>
 

@@ -1,43 +1,83 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import {
-  HomeIcon,
-  PencilSquareIcon,
-  UsersIcon,
-  PlusCircleIcon,
-  UserCircleIcon
-} from '@heroicons/react/24/solid'
+import { UserCircleIcon } from '@heroicons/react/24/solid'
+import { supabase } from '../supabaseClient'
+import { SearchIcon } from 'lucide-react'
+
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const { signInWithGitHub, signOut, user } = useAuth()
-  // console.log(user)
+  const [profile, setProfile] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
 
-  const displayName = user?.user_metadata?.user_name || user?.user_metadata?.name || user?.email
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (user) {
+        const { data, error } = await supabase
+          .from("users")
+          .select("name, avatar_url")
+          .eq("id", user.id)
+          .single()
 
+        if (error) {
+          console.error("Error fetching profile:", error)
+        } else {
+          setProfile(data)
+        }
+        setLoading(false)
+      } else {
+        setProfile(null)
+        setLoading(false)
+      }
+    }
+
+    fetchProfile()
+  }, [user])
 
   return (
     <nav className='fixed top-0 w-full z-50 bg-white shadow-md border-b border-white/20'>
-      <div className='max-w-8xl mx-auto px-8 py-2 flex  items-center justify-between '>
-        <div>
+      <div className='max-w-8xl mx-auto px-8 py-2 flex items-center justify-between'>
+        {/* Logo */}
+        <div className='flex gap-5'>
           <Link to="/" className='font-mono text-xl font-bold text-black'>
             Buzz<span className='text-purple-500'>Circle</span>
           </Link>
+          <Link to={"/search"}>
+            <label className='flex '>
+              <input type="text" className='border-b' placeholder='Search Your Friends' />
+              <SearchIcon className='w-5 h-5' />
+            </label>
+          </Link>
         </div>
+
+
+        {/* Right Side - Avatar or Auth */}
         <div className=''>
-          {user ? (
-            <Link to={"/profile"} >
-              <UserCircleIcon className='w-7 h-7 text-gray-700 hover:text-purple-600 transition ' />
+          {loading ? null : user ? (
+            <Link to="/profile" className='flex items-center gap-2'>
+              {profile?.avatar_url ? (
+                <img
+                  src={profile.avatar_url}
+                  alt="avatar"
+                  className='w-8 h-8 rounded-full object-cover border border-purple-400 shadow'
+                />
+              ) : (
+                <div className='w-8 h-8 rounded-full bg-purple-300 flex items-center justify-center text-white font-semibold'>
+                  {profile?.username?.charAt(0)?.toUpperCase() || "U"}
+                </div>
+              )}
+              <span className='text-sm font-medium text-gray-700 hover:text-purple-600 transition'>
+                {profile?.name}
+              </span>
             </Link>
           ) : (
-            <Link to={"/signUp"} >
-              <UserCircleIcon className='w-7 h-7 text-gray-700 hover:text-purple-600 transition ' />
+            <Link to="/signUp">
+              <UserCircleIcon className='w-7 h-7 text-gray-700 hover:text-purple-600 transition' />
             </Link>
           )}
         </div>
       </div>
-
     </nav>
   )
 }
