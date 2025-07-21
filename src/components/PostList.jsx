@@ -16,7 +16,7 @@ const PostList = () => {
             const {data,error} = await supabase.rpc("get_posts_with_counts")
 
             if(error) throw new Error(error.message) 
-            console.log(data)
+            // console.log(data)
             setPosts(data || [])
         }catch(err){
             setError(err.message)
@@ -31,7 +31,7 @@ const PostList = () => {
     if (loading) return <div className='text-center py-10'>Loading Posts......</div>
     if(error) return <div className='text-red-500 text-center py-10'>Error : {error}</div>
   return (
-    <div className='flex flex-wrap gap-2 justify-center'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-6 px-4'>
         {/* <img src={posts[1].image_url}/> */}
       {posts.map((post,index) =>(
         <PostItem key={index} post={post} />

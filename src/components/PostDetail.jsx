@@ -33,7 +33,7 @@ const PostDetail = ({postId}) => {
         return <div className='text-red-500 text-center py-10'>Error:{error}</div>
     }
   return (
-       <div className="space-y-6 max-w-full mx-auto px-4">
+       <div className="space-y-6 max-w-full mx-auto px-4 ">
       <h2 className="text-4xl md:text-6xl font-bold mb-6 text-center bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
         {post?.title}
       </h2>

@@ -66,13 +66,14 @@ const CreatePost = () => {
         .from("post-images")
         .getPublicUrl(filePath);
 
-      // Insert post record into Supabase
+      
       const { error: insertError } = await supabase.from("posts").insert([
         {
           title,
           content,
           image_url: publicURLData.publicUrl,
           community_id: communityId,
+          user_id:user.id
         },
       ]);
 
@@ -83,6 +84,11 @@ const CreatePost = () => {
       setSelectedFile(null);
       setCommunityId(null);
       alert("Post created successfully!");
+
+      // const {data:countData,error:countError} = await supabase.from("users").update([{
+      //   post_count: post_count + 1
+      // }]).eq("id",user.id)
+
     } catch (err) {
       console.error("Post creation failed:", err.message);
       setError(err.message);
@@ -107,7 +113,7 @@ const CreatePost = () => {
           value={title}
           required
           onChange={(e) => setTitle(e.target.value)}
-          className="w-full border border-white/10 bg-transparent p-2 rounded"
+          className="w-full border border-black/50 bg-transparent p-2 rounded"
         /> 
       </div>
 
@@ -121,7 +127,7 @@ const CreatePost = () => {
           required
           rows={5}
           onChange={(e) => setContent(e.target.value)}
-          className="w-full border border-white/10 bg-transparent p-2 rounded"
+          className="w-full border border-black/50 bg-transparent p-2 rounded"
         />
       </div>
 
@@ -131,7 +137,7 @@ const CreatePost = () => {
           id="community"
           onChange={handleCommunityChange}
           value={communityId || ""}
-          className="w-full bg-transparent  border border-white/10 p-2 rounded"
+          className="w-full bg-transparent  border border-black/50 p-2 rounded"
         >
           <option value="" className="text-black">-- Choose a Community --</option>
           {communities.map((community) => (
@@ -151,7 +157,7 @@ const CreatePost = () => {
           id="image"
           accept="image/*"
           onChange={handleFileChange}
-          className="w-full text-gray-200"
+          className="w-full text-gray-700 border border-black/50"
         />
       </div>
 

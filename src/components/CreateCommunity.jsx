@@ -1,6 +1,7 @@
 import React, {useState, useRef } from 'react'
 import { useNavigate } from 'react-router';
 import { supabase } from '../supabaseClient';
+import { useAuth } from '../context/AuthContext';
 
 const CreateCommunity = () => {
   const [name, setName] = useState("");
@@ -9,14 +10,25 @@ const CreateCommunity = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const fileInput = useRef()
+  const {user} = useAuth()
+  // console.log("create community")
+  // console.log("user",user)
 
   const handleSubmit =async (e)=>{
     e.preventDefault()
     setLoading(true)
     setError(null)
+    
 
     try{
-        const{data,error} = await supabase.from("communities").insert([{name,description}])
+
+        const {data:userInfo} = await supabase.from('users').select('is_admin').eq('id',user.id).single()
+        if(!userInfo?.is_admin){
+          setError("only admins can create communities")
+          return
+        }
+
+        const{data,error} = await supabase.from("communities").insert([{name,description,created_by:user.id}])
         if (error) throw error
         setName("")
         setDescription("")
