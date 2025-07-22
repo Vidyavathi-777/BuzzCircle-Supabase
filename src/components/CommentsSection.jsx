@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../supabaseClient'
 import CommentItem from './CommentItem'
+import { Link } from 'react-router-dom'
 
 const CommentsSection = ({ postId }) => {
     const { user } = useAuth()
@@ -30,23 +31,23 @@ const CommentsSection = ({ postId }) => {
     //     const interval = setInterval(fetchComments, 5000); 
     //     return () => clearInterval(interval);
     // }, [postId]);
-    useEffect (() =>{
+    useEffect(() => {
         fetchComments()
 
-        const subscription = supabase.channel('comments-channel').on('postgres_changes',{
-            event:'INSERT',
-            schema:'public',
-            table:'comments',
-            filter:'post_id=eq.${postId}'
+        const subscription = supabase.channel('comments-channel').on('postgres_changes', {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'comments',
+            filter: 'post_id=eq.${postId}'
         },
-        (payload) =>{
-            fetchComments()
+            (payload) => {
+                fetchComments()
+            }
+        ).subscribe()
+        return () => {
+            supabase.removeChannel(subscription)
         }
-    ).subscribe()
-    return () =>{
-        supabase.removeChannel(subscription)
-    }
-    },[postId])
+    }, [postId])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -101,7 +102,7 @@ const CommentsSection = ({ postId }) => {
     };
 
     const commentTree = buildCommentTree(comments);
-  return (
+    return (
         <div className="mt-8">
             <div className="mb-6">
                 <h3 className="text-2xl font-bold text-black mb-1">
@@ -127,7 +128,7 @@ const CommentsSection = ({ postId }) => {
                                 disabled={posting}
                             />
                         </div>
-                        
+
                         <div className="flex items-center justify-between">
                             <p className="text-sm text-gray-500 dark:text-gray-400">
                                 Posting as {user.user_metadata?.name || user.user_metadata?.user_name || user.email}
@@ -151,13 +152,15 @@ const CommentsSection = ({ postId }) => {
                     </form>
                 </div>
             ) : (
-                <div className="mb-8 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200  p-6 text-center">
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                <div className="mb-8 bg-gray-50  rounded-lg border border-gray-600  p-6 text-center">
+                    <p className="text-gray-600  mb-4">
                         Join the conversation! Sign in to share your thoughts.
                     </p>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
-                        Sign In
-                    </button>
+                    <Link to={"/signin"}>
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                            Sign In
+                        </button>
+                    </Link>
                 </div>
             )}
 

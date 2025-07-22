@@ -36,7 +36,7 @@ const Navbar = () => {
   }, [user])
 
   return (
-    <nav className='fixed top-0 w-full z-50 bg-white shadow-md border-b border-white/20'>
+    <nav className='fixed top-0 w-full h-15 z-50 bg-white shadow-md border-b border-white/20'>
       <div className='max-w-8xl mx-auto px-8 py-2 flex items-center justify-between'>
         {/* Logo */}
         <div className='flex gap-2'>
@@ -60,14 +60,14 @@ const Navbar = () => {
                 <img
                   src={profile.avatar_url}
                   alt="avatar"
-                  className='w-8 h-8 rounded-full object-cover border border-purple-400 shadow'
+                  className='w-10 h-10 rounded-full object-cover border border-purple-400 shadow'
                 />
               ) : (
                 <div className='w-8 h-8 rounded-full bg-purple-300 flex items-center justify-center text-white font-semibold'>
-                  {profile?.username?.charAt(0)?.toUpperCase() || "U"}
+                  {profile?.username?.charAt(0)?.toUpperCase() }
                 </div>
               )}
-              <span className='text-sm font-medium text-gray-700 hover:text-purple-600 transition'>
+              <span className='text-sm font-large text-gray-700 hover:text-purple-600 transition'>
                 {profile?.name}
               </span>
             </Link>

@@ -17,6 +17,7 @@ import { supabase } from './supabaseClient'
 import SearchUsers from './pages/SearchUsers'
 import FollowersPage from './pages/FollowersPage'
 import FollowingPage from './pages/FollowingPage'
+import AnotherUserProfile from './pages/AnotherUserProfile'
 
 const App = () => {
     const { user } = useAuth()
@@ -68,6 +69,7 @@ const App = () => {
                             <Route path='/edit-profile' element={<EditProfilePage />} />
                             <Route path='/followers' element={<FollowersPage/>} />
                             <Route path='/following' element={<FollowingPage />} />
+                            <Route path='/another-user/:id' element={<AnotherUserProfile />} />
                         </Routes>
                     </div>
                 </div>

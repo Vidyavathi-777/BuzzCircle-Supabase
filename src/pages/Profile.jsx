@@ -141,23 +141,7 @@ const ProfilePage = () => {
                     />
                   </div>
 
-                  {/* <div className="absolute inset-0 bg-black/60 flex flex-col justify-end p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <h3 className="text-xl font-semibold mb-2 line-clamp-2"> 
-                {post.title}
-            </h3>
 
-            <div className="flex items-center gap-4 text-sm mt-auto pt-2 border-t border-gray-700"> 
-                <span className="flex items-center gap-1">
-                    <Heart className="w-4 h-4 text-red-400" /> 
-                    {post.like_count ?? 0}
-                </span>
-                
-                <span className="flex items-center gap-1">
-                    <MessageCircle className="w-4 h-4 text-blue-400" />
-                    {post.comments ?? 0}
-                </span>
-            </div>
-        </div> */}
 
                   <div className="p-2">
                     <h3 className="text-lg font-semibold text-white truncate">
@@ -238,7 +222,9 @@ const ProfilePage = () => {
     <div className=" bg-whitw text-black">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-800">
-        <ChevronLeft className="w-6 h-6 text-black" />
+        <button onClick={() => navigate(-1)} className="p-1 rounded-full hover:bg-gray-100">
+          <ChevronLeft className="w-6 h-6 text-black" />
+        </button>
         <h1 className="text-lg font-semibold">{profile.name}</h1>
         <Settings className="w-6 h-6 text-white" />
         <button

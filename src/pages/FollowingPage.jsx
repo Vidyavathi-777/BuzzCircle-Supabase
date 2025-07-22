@@ -30,7 +30,7 @@ const FollowingPage = () => {
     <div className="p-6 max-w-2xl mx-auto">
       <h2 className="text-2xl font-bold mb-4">Users You Follow</h2>
       {loading ? (
-        <p>Loading...</p>
+        <p>Loading...</p>  
       ) : following.length === 0 ? (
         <p>You’re not following anyone yet.</p>
       ) : (

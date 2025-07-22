@@ -53,7 +53,7 @@ const FollowersPage = () => {
                 View Profile
               </Link> */}
             </div>
-          ))}
+          ))}  
         </div>
       )}
     </div>
