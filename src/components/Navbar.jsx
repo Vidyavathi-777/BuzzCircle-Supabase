@@ -39,13 +39,13 @@ const Navbar = () => {
     <nav className='fixed top-0 w-full z-50 bg-white shadow-md border-b border-white/20'>
       <div className='max-w-8xl mx-auto px-8 py-2 flex items-center justify-between'>
         {/* Logo */}
-        <div className='flex gap-5'>
+        <div className='flex gap-2'>
           <Link to="/" className='font-mono text-xl font-bold text-black'>
             Buzz<span className='text-purple-500'>Circle</span>
           </Link>
           <Link to={"/search"}>
             <label className='flex '>
-              <input type="text" className='border-b' placeholder='Search Your Friends' />
+              {/* <input type="text" className='border-b' placeholder='Search Your Friends' /> */}
               <SearchIcon className='w-5 h-5' />
             </label>
           </Link>
