@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { ChevronLeft } from 'lucide-react'
 
 const SearchUsers = () => {
@@ -9,6 +9,7 @@ const SearchUsers = () => {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [followingMap, setFollowingMap] = useState({});
+    const navigate = useNavigate()
 
     const fetchFollowing = async () => {
         if (!user) return;
@@ -24,7 +25,7 @@ const SearchUsers = () => {
             data.forEach(f => {
                 map[f.following_id] = true;
             });
-            setFollowingMap(map);
+            setFollowingMap(map); 
         }
     };
 
@@ -45,7 +46,9 @@ const SearchUsers = () => {
         }
     };
 
-    const handleFollow = async (targetUserId) => {
+    const handleFollow = async (e,targetUserId) => {
+        e.preventDefault();
+        e.stopPropagation();
         const { error } = await supabase.from("followers").insert({
             follower_id: user.id,
             following_id: targetUserId
@@ -58,7 +61,9 @@ const SearchUsers = () => {
         }
     };
 
-    const handleUnFollow = async (targetUserId) => {
+    const handleUnFollow = async (e,targetUserId) => {
+        e.preventDefault();
+        e.stopPropagation();
         const { error } = await supabase
             .from("followers")
             .delete()
@@ -129,14 +134,14 @@ const SearchUsers = () => {
                             </div>
                             {followingMap[u.id] ? (
                                 <button
-                                    onClick={() => handleUnFollow(u.id)}
+                                    onClick={(e) => handleUnFollow(e,u.id)}
                                     className="bg-red-500 text-white px-3 py-1 rounded"
                                 >
                                     Unfollow
                                 </button>
                             ) : (
                                 <button
-                                    onClick={() => handleFollow(u.id)}
+                                    onClick={(e) => handleFollow(e,u.id)}
                                     className="bg-green-600 text-white px-3 py-1 rounded"
                                 >
                                     Follow

@@ -11,7 +11,7 @@ const FollowersPage = () => {
   const fetchFollowers = async () => {
     const { data, error } = await supabase
       .from('followers')
-      .select('follower_id, users:follower_id(*)')  // joins users table
+      .select('follower_id, users:follower_id(*)')  
       .eq('following_id', user.id);
 
     if (error) {

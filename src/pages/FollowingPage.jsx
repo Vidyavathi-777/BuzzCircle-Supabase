@@ -21,7 +21,7 @@ const FollowingPage = () => {
     }
     setLoading(false);
   };
-
+ 
   useEffect(() => {
     if (user?.id) fetchFollowing();
   }, [user?.id]);

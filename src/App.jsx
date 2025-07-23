@@ -18,6 +18,8 @@ import SearchUsers from './pages/SearchUsers'
 import FollowersPage from './pages/FollowersPage'
 import FollowingPage from './pages/FollowingPage'
 import AnotherUserProfile from './pages/AnotherUserProfile'
+import ChatPage from './pages/ChatPage'
+
 
 const App = () => {
     const { user } = useAuth()
@@ -52,7 +54,7 @@ const App = () => {
 
                 {/* Main Content Area */}
                 <div className='md:ml-20 lg:ml-64 pt-10 pb-16'>
-                    <div className=' max-w-6xl mx-auto px-4 py-6'>
+                    <div className=' max-w-8xl mx-auto px-4 py-6'>
                         <Routes>
                             <Route path='/' element={<Home />} />
                             <Route path='/create' element={<CreatePostPage />} />
@@ -70,6 +72,7 @@ const App = () => {
                             <Route path='/followers' element={<FollowersPage/>} />
                             <Route path='/following' element={<FollowingPage />} />
                             <Route path='/another-user/:id' element={<AnotherUserProfile />} />
+                            <Route path='/chat-page' element={<ChatPage />} />
                         </Routes>
                     </div>
                 </div>

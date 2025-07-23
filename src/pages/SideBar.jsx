@@ -56,9 +56,9 @@ const SideBar = () => {
 
       <button
         onClick={() => setMenuOpen(!menuOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 text-white bg-purple-600 hover:bg-purple-700 p-2 mt-10  rounded-lg transition-colors"
+        className="md:hidden fixed top-2 left-4 z-50 text-white bg-purple-600 hover:bg-purple-700 p-2 mt-10  rounded-lg transition-colors"
       >
-        {menuOpen ? <div className=''><XMarkIcon className="w-6 h-6 " /></div> : <Bars3Icon className="w-6 h-6" />}
+        {menuOpen ? <div className=''><XMarkIcon className="w-5 h-5 " /></div> : <Bars3Icon className="w-5 h-5" />}
       </button>
 
 
