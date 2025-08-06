@@ -4,19 +4,20 @@ import './index.css'
 import App from './App.jsx'
 
 import { BrowserRouter as Router } from 'react-router'
-import { QueryClient,QueryClientProvider } from '@tanstack/react-query'
-import { AuthProvider } from './context/AuthContext.jsx'
 
-const client = new QueryClient();
+import { AuthProvider } from './context/AuthContext.jsx'
+// import { HelmetProvider } from 'react-helmet-async'
+
+// const client = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <QueryClientProvider client={client}>
+    {/* <HelmetProvider> */}
       <AuthProvider>
-      <Router>
-        <App />
-      </Router>
+        <Router>
+          <App />
+        </Router>
       </AuthProvider>
-    </QueryClientProvider>
+    {/* </HelmetProvider> */}
   </StrictMode>,
 )
