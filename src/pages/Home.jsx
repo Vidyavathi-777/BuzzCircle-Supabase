@@ -1,6 +1,7 @@
 import React from 'react'
 import PostList from '../components/PostList'
 import { Helmet } from 'react-helmet-async'
+import SEO from '../components/SEO'
 
 const Home = () => {
   return (
