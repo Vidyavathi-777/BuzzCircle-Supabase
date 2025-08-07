@@ -7,12 +7,10 @@ import { BrowserRouter as Router } from 'react-router'
 
 import { AuthProvider } from './context/AuthContext.jsx'
 import { HelmetProvider } from 'react-helmet-async'
-import { Helmet } from 'react-helmet'
-
-// const client = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+
     <HelmetProvider>
       <AuthProvider>
         <Router>
